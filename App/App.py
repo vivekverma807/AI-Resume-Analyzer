@@ -97,9 +97,42 @@ def course_recommender(course_list):
 ###### Database Stuffs ######
 
 
-# sql connector
-connection = pymysql.connect(host='localhost',user='root',password='Vivek@807',db='cv')
-cursor = connection.cursor()
+# Database Connection
+try:
+    # Try fetching from secrets (best for cloud)
+    if "mysql" in st.secrets:
+        db_conf = st.secrets["mysql"]
+        host = db_conf["host"]
+        port = db_conf.get("port", 3306) # Default to 3306 if not specified
+        user = db_conf["user"]
+        password = db_conf["password"]
+        db_name = db_conf["database"]
+        
+        # TiDB/Cloud DBs often require SSL
+        connection = pymysql.connect(
+            host=host,
+            user=user,
+            password=password,
+            db=db_name,
+            port=int(port),
+            ssl={"ssl_mode": "VERIFY_IDENTITY"}
+        )
+    else:
+        # Fallback to local default (best for local dev)
+        connection = pymysql.connect(host='localhost',user='root',password='Vivek@807',db='cv')
+
+except Exception as e:
+    # Fallback to local default if secrets fail or are missing
+    try:
+        connection = pymysql.connect(host='localhost',user='root',password='Vivek@807',db='cv')
+    except Exception as local_e:
+        st.error(f"Database Connection Failed! Cloud Error: {e} | Local Error: {local_e}")
+        connection = None
+
+if connection:
+    cursor = connection.cursor()
+else:
+    cursor = None
 
 
 # inserting miscellaneous data, fetched results, prediction and recommendation into user_data table
