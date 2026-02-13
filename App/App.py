@@ -295,7 +295,12 @@ def run():
                 time.sleep(4)
         
             ### saving the uploaded resume to folder
-            save_image_path = './Uploaded_Resumes/'+pdf_file.name
+            # Ensure Uploaded_Resumes directory exists
+            upload_dir = os.path.join(os.path.dirname(__file__), 'Uploaded_Resumes')
+            if not os.path.exists(upload_dir):
+                os.makedirs(upload_dir)
+
+            save_image_path = os.path.join(upload_dir, pdf_file.name)
             pdf_name = pdf_file.name
             with open(save_image_path, "wb") as f:
                 f.write(pdf_file.getbuffer())
