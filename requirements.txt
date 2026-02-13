@@ -1,0 +1,17 @@
+streamlit
+pandas
+pymysql
+geocoder
+geopy
+plotly
+pdfminer.six
+docx2txt
+nltk
+spacy
+cryptography
+streamlit-tags
+Pillow
+ratelim
+requests
+typing_extensions
+protobuf<=3.20.1
