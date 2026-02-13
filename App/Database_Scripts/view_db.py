@@ -1,45 +1,74 @@
+
+import streamlit as st
 import pymysql
 import pandas as pd
 
-def view_data():
+# Page Configuration
+st.set_page_config(page_title="DB Viewer", layout="wide")
+
+# Get connection details as inputs
+st.title("TiDB Cloud/Local DB Viewer")
+st.write("Use this tool to **VIEW** all data from your database (Cloud or Local).")
+
+with st.sidebar.form("db_setup"):
+    st.subheader("Database Connection")
+    host = st.text_input("Host", value="gateway01.eu-central-1.prod.aws.tidbcloud.com")
+    port = st.number_input("Port", value=4000)
+    user = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    db_name = st.text_input("Database Name", value="cv")
+    submit = st.form_submit_button("Connect & View")
+
+if submit:
     try:
-        connection = pymysql.connect(
-            host='localhost',
-            user='root',
-            password='Vivek@807',
-            db='cv'
+        # Connect to database
+        conn = pymysql.connect(
+            host=host,
+            port=int(port),
+            user=user,
+            password=password,
+            database=db_name,
+            charset='utf8mb4',
+            cursorclass=pymysql.cursors.DictCursor,
+            # Handle SSL only if not localhost
+            ssl={"ssl_mode": "VERIFY_IDENTITY"} if host != "localhost" else None
         )
         
-        print("\n--- TABLES IN DATABASE 'CV' ---")
-        tables = pd.read_sql("SHOW TABLES", connection)
-        print(tables)
-        print("\n" + "="*50 + "\n")
+        st.success(f"Connected to '{db_name}' successfully!")
 
-        # Check user_data
-        if 'user_data' in tables.values:
-            print("--- CONTNETS OF 'user_data' TABLE ---")
-            df_users = pd.read_sql("SELECT * FROM user_data", connection)
+        # 1. Show Tables
+        st.header(f"Tables in '{db_name}'")
+        tables_df = pd.read_sql("SHOW TABLES;", conn)
+        st.dataframe(tables_df)
+
+        # 2. View User Data
+        st.divider()
+        st.header("📋 User Data (user_data)")
+        try:
+            df_users = pd.read_sql("SELECT * FROM user_data;", conn)
             if df_users.empty:
-                print("[Table is empty]")
+                st.warning("Table 'user_data' is empty.")
             else:
-                print(df_users.head()) # Show first 5 rows
-            print("\n" + "="*50 + "\n")
+                st.dataframe(df_users)
+                st.info(f"Total Rows: {len(df_users)}")
+        except Exception as e:
+            st.error(f"Could not read 'user_data': {e}")
 
-        # Check user_feedback
-        if 'user_feedback' in tables.values:
-            print("--- CONTENTS OF 'user_feedback' TABLE ---")
-            df_feed = pd.read_sql("SELECT * FROM user_feedback", connection)
+        # 3. View User Feedback
+        st.divider()
+        st.header("💬 User Feedback (user_feedback)")
+        try:
+            df_feed = pd.read_sql("SELECT * FROM user_feedback;", conn)
             if df_feed.empty:
-                print("[Table is empty]")
+                st.warning("Table 'user_feedback' is empty.")
             else:
-                print(df_feed.head())
-            print("\n" + "="*50 + "\n")
-
+                st.dataframe(df_feed)
+                st.info(f"Total Rows: {len(df_feed)}")
+        except Exception as e:
+            st.error(f"Could not read 'user_feedback': {e}")
+        
     except Exception as e:
-        print(f"Error: {e}")
+        st.error(f"Connection Error: {e}")
     finally:
-        if 'connection' in locals() and connection.open:
-            connection.close()
-
-if __name__ == "__main__":
-    view_data()
+        if 'conn' in locals() and conn.open:
+            conn.close()

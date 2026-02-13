@@ -6,7 +6,7 @@
 ## ⚡ Quick Start (Windows)
 1.  **Install Python:** Download and install [Python 3.11+](https://www.python.org/downloads/) (Check "Add Python to PATH" during installation).
 2.  **Install MySQL:** Download and install [MySQL Server](https://dev.mysql.com/downloads/installer/).
-    *   Set Root Password: `root@MySQL4admin` (or edit `App/App.py` and `create_db.py` if different).
+    *   Set Root Password: `Vivek@807` (or edit `App/App.py` and `App/Database_Scripts/create_db.py` if different).
 3.  **Run the Project:**
     *   Find the file `run_app.bat` in this folder.
     *   **Double-click** it.
