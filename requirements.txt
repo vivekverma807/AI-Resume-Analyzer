@@ -14,4 +14,8 @@ Pillow
 ratelim
 requests
 typing_extensions
-protobuf<=3.20.1
+protobuf
+# Relaxed versions to allow compatibility with Python 3.13 on Streamlit Cloud
+numpy>=1.24.0
+cffi>=1.16.0
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
