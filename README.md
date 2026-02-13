@@ -120,6 +120,6 @@ To access the Admin Dashboard:
 ## 📨 Contact & Support
 Developed with 🤍 by **Vivek Kumar Verma**.
 *   **GitHub:** [vivekverma807](https://github.com/vivekverma807)
-*   **Email:** [vivekverma807@example.com](mailto:vivekverma502807@gmail.com)
+*   **Email:** [vivekverma502807@gmail.com](mailto:vivekverma502807@gmail.com)
 
 If you face any issues, strictly follow the [QUICK_START.md](./QUICK_START.md) guide included in the repo.
