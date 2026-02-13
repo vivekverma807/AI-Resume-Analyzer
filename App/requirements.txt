@@ -5,6 +5,8 @@ geocoder
 geopy
 plotly
 pdfminer.six
+# Explicitly adding pdfminer3 as it's directly imported in App.py
+pdfminer3
 docx2txt
 nltk>=3.8
 spacy>=3.7
