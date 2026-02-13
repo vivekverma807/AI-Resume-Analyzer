@@ -2,12 +2,16 @@
 
 
 ###### Packages Used ######
+import sys
+import os
+# Add parent directory to path to import pyresparser from root
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import streamlit as st # core package used in this project
 import pandas as pd
 import base64, random
 import time,datetime
 import pymysql
-import os
 import socket
 import platform
 import geocoder
