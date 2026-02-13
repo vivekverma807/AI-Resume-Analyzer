@@ -170,7 +170,9 @@ st.set_page_config(
 def run():
     
     # (Logo, Heading, Sidebar etc)
-    img = Image.open('./Logo/resume.png')
+    # Use absolute path based on the file location
+    logo_path = os.path.join(os.path.dirname(__file__), 'Logo', 'resume.png')
+    img = Image.open(logo_path)
     st.image(img)
     st.sidebar.markdown("# Choose Something...")
     activities = ["User", "Feedback", "About", "Admin"]
