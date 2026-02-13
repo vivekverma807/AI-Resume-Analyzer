@@ -6,6 +6,8 @@ import sys
 import os
 # Add parent directory to path to import pyresparser from root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import nltk
+nltk.download('stopwords')
 
 import streamlit as st # core package used in this project
 import pandas as pd
