@@ -5,17 +5,20 @@ geocoder
 geopy
 plotly
 pdfminer.six
+# Explicitly adding pdfminer3 as it's directly imported in App.py
+pdfminer3
 docx2txt
-nltk
-spacy
+nltk>=3.8
+spacy>=3.7
 cryptography
 streamlit-tags
 Pillow
 ratelim
 requests
 typing_extensions
-protobuf
-# Relaxed versions to allow compatibility with Python 3.13 on Streamlit Cloud
-numpy>=1.24.0
+# Platform-specific dependencies for Python 3.13+ compatibility
+numpy>=1.26.0
 cffi>=1.16.0
+protobuf>=4.25.0
+# Direct download for Spacy model
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl

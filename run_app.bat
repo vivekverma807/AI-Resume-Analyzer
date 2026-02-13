@@ -25,7 +25,8 @@ pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 
 :: Setup Database (if not exists)
-python create_db.py
+:: Setup Database (if not exists)
+python App\Database_Scripts\create_db.py
 
 :: Run Application
 echo Starting Application...
