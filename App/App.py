@@ -10,6 +10,13 @@ import nltk
 nltk.download('stopwords')
 
 import streamlit as st # core package used in this project
+# page configuration
+st.set_page_config(
+   page_title="AI Resume Analyzer",
+   page_icon="📄",
+   layout="wide",
+   initial_sidebar_state="expanded",
+)
 import pandas as pd
 import base64, random
 import time,datetime
@@ -291,8 +298,8 @@ def run():
         ## file upload in pdf format
         pdf_file = st.file_uploader("Choose your Resume", type=["pdf"])
         if pdf_file is not None:
-            with st.spinner('Hang On While We Cook Magic For You...'):
-                time.sleep(4)
+            # File is already uploaded, proceed directly
+            st.success("File Uploaded Successfully")
         
             ### saving the uploaded resume to folder
             # Ensure Uploaded_Resumes directory exists
