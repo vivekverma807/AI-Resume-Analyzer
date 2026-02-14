@@ -311,10 +311,14 @@ def run():
             pdf_name = pdf_file.name
             with open(save_image_path, "wb") as f:
                 f.write(pdf_file.getbuffer())
-            show_pdf(save_image_path)
-
+            # show_pdf(save_image_path) 
+            
             ### parsing and extracting whole resume 
-            resume_data = ResumeParser(save_image_path).get_extracted_data()
+            try:
+                resume_data = ResumeParser(save_image_path).get_extracted_data()
+            except Exception as e:
+                st.error(f"Error parsing resume: {e}")
+                resume_data = None
             if resume_data:
                 
                 ## Get the whole resume data into resume_text
