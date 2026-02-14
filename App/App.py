@@ -275,23 +275,23 @@ def run():
         except Exception:
             dev_user = os.getenv('USER') or os.getenv('USERNAME') or 'unknown_user'
         os_name_ver = platform.system() + " " + platform.release()
-        g = geocoder.ip('me')
-        latlong = g.latlng
+        # Geolocation (Try/Except because this fails on Cloud/Mobile often)
+        city = state = country = "Unknown"
+        latlong = "Unknown"
         try:
-            geolocator = Nominatim(user_agent="ai_resume_analyzer")
-            location = geolocator.reverse(latlong, language='en')
-            address = location.raw['address']
-            cityy = address.get('city', '')
-            statee = address.get('state', '')
-            countryy = address.get('country', '')
-            city = cityy
-            state = statee
-            country = countryy
-        except Exception as e:
-            # Fallback if geocoding fails
-            city = "Unknown"
-            state = "Unknown"
-            country = "Unknown"
+            g = geocoder.ip('me')
+            if g and g.latlng:
+                latlong = g.latlng
+                geolocator = Nominatim(user_agent="ai_resume_analyzer_v2")
+                location = geolocator.reverse(latlong, language='en')
+                if location and location.raw:
+                     address = location.raw.get('address', {})
+                     city = address.get('city', '') or address.get('town', '') or address.get('village', 'Unknown')
+                     state = address.get('state', 'Unknown')
+                     country = address.get('country', 'Unknown')
+        except Exception:
+            # Silently fail for location detection to keep app running
+            pass
 
 
 
