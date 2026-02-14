@@ -11,8 +11,7 @@ venvapp/
 env/
 .env
 
-# Streamlit
-.streamlit/
+# Streamlit (Config is needed for deployment)
 
 # Checkpoints
 .ipynb_checkpoints/
